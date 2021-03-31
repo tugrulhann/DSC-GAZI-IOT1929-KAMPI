@@ -1,0 +1,49 @@
+#define BLYNK_PRINT Serial      
+#include <ESP8266WiFi.h>        
+#include <BlynkSimpleEsp8266.h> 
+
+char auth[] = "Blynk_Token_Kodu";    
+char ssid[] = "Ağ_Adı";              
+char pass[] = "Ağ_Şifresi";          
+
+#define Yesil_Led D6                         
+#define Kirmizi_Led D7                       
+#define Mavi_Led D8                          
+int butonDurumu;                             
+
+void setup()  
+{
+  Serial.begin(9600);            
+  Blynk.begin(auth, ssid, pass); 
+  pinMode(Yesil_Led, OUTPUT);           
+  pinMode(Kirmizi_Led, OUTPUT);           
+  pinMode(Mavi_Led, OUTPUT);           
+}
+
+BLYNK_WRITE(V0)  
+{             
+ butonDurumu= param.asInt(); 
+ if(butonDurumu==1) 
+    {
+      digitalWrite(Yesil_Led , HIGH); 
+      delay(5000);           
+      digitalWrite(Yesil_Led , LOW);  
+      digitalWrite(Kirmizi_Led , HIGH); 
+      delay(5000);            
+      digitalWrite(Kirmizi_Led , LOW);  
+      digitalWrite(Mavi_Led , HIGH); 
+      delay(5000);          
+      digitalWrite(Mavi_Led , LOW); 
+    }
+else 
+    {
+     digitalWrite(Yesil_Led , LOW); 
+     digitalWrite(Kirmizi_Led , LOW); 
+     digitalWrite(Mavi_Led , LOW);   
+    }
+}
+
+void loop()  
+{ 
+  Blynk.run();                      
+}

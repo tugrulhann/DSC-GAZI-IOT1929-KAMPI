@@ -1,0 +1,32 @@
+#include <Joystick.h> 
+#include <Servo.h>    
+
+Servo servoMotor180; 
+Servo servoMotor90;  
+
+Joystick_ Joystick;  
+const bool initAutoSendState=true;
+void setup()  
+{
+ Joystick.begin();           
+ servoMotor180.attach(5);    
+ servoMotor90.attach(6);     
+ Serial.begin(9600);         
+}
+
+void loop() // Sonsuz Döngü
+{
+  int X_Deger = analogRead(A0); 
+  X_Deger= map(X_Deger, 0,1023, 0,180);
+  Joystick.setXAxis(X_Deger);           
+  servoMotor180.write(X_Deger);           
+  
+  int Y_Deger = analogRead(A1); 
+  Y_Deger = map(Y_Deger, 0,1023, 0,90); 
+  Joystick.setYAxis(Y_Deger);  
+  servoMotor90.write(Y_Deger);  
+   
+  Serial.println("Motor 1 Açı Degeri:" + String(X_Deger)); 
+  Serial.println("Motor 2 Açı Degeri:" + String(Y_Deger)); 
+  delay(1000); 
+}
